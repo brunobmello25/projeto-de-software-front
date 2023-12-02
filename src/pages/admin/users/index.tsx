@@ -2,16 +2,22 @@ import { useState } from 'react';
 import { Button, Modal, Form, Input, Table, Space, Popconfirm, Row, Col, Select } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone, LockOutlined } from '@ant-design/icons';
 import Layout from "../../../components/layout/index"
-
+import { createUser } from "../../../services/admin/index"
 
 const crudUsers = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [dataSource, setDataSource] = useState([]);
-    const [user,setUser] = useState({
-        name:'',
-        email:'',
-        password:'',
-        role:'',
+    const [roles, setRoles] = useState([
+        { id: 'ADMIN', name: 'Administrador' },
+        { id: 'DOCTOR', name: 'Médico' },
+        { id: 'SECRETARY', name: 'Secretária' },
+        { id: 'STORAGE_MANAGER', name: 'Gerente de estoque' },
+    ]);
+    const [user, setUser] = useState({
+        name: '',
+        email: '',
+        password: '',
+        role: '',
     })
     const [showPassword, setShowPassword] = useState(false);
     const [form] = Form.useForm();
@@ -19,26 +25,23 @@ const crudUsers = () => {
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-    
+
     const showModal = () => {
         setIsModalVisible(true);
     };
 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
+    const handleInputChange = (name: string, value: string) => {
         setUser((prevDados) => ({
-          ...prevDados,
-          [name]: value,
+            ...prevDados,
+            [name]: value,
         }));
-      };
+    };
 
     const handleOk = () => {
-        console.log(user);
-        form.validateFields().then((values) => {
-            const updatedDataSource = [...dataSource, values];
-            setIsModalVisible(false);
-
+        form.validateFields().then((user) => {
+            createUser(user);
             form.resetFields();
+            setIsModalVisible(false);
         });
     };
 
@@ -52,8 +55,11 @@ const crudUsers = () => {
         setDataSource(updatedDataSource);
     };
 
-    const roles = ['STORAGE_MANAGER','ADMIN','SECRETARY','DOCTOR']
-    
+    const handleRoleChange = (value: string) => {
+        form.setFieldsValue({ role: value });
+
+    };
+
     const columns = [
         {
             title: 'Nome',
@@ -101,6 +107,7 @@ const crudUsers = () => {
         }));
     }
 
+
     return (
         <Layout>
             <div className={'centralized'}>
@@ -108,22 +115,57 @@ const crudUsers = () => {
                 <Button type="primary" onClick={showModal} className='button'>
                     Cadastrar Paciente
                 </Button>
-                <Modal title="Cadastro de Paciente" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="Salvar" cancelText="Fechar">
+                <Modal title="Cadastro de Paciente" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="Salvar" cancelText="Fechar">
                     <Form form={form}>
-                        <Form.Item label="Nome"  rules={[{ required: true, message: 'Por favor, insira o nome!' }]}>
-                            <Input value={user.name}  onChange={handleInputChange} name="name"/>
+                        <Form.Item
+                            label="Nome"
+                            name="name"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Por favor, insira o nome!',
+                                },
+                            ]}
+                            validateTrigger={['onChange', 'onBlur']}
+                            hasFeedback
+                        >
+                            <Input
+                                value={user.name}
+                                onChange={(e) => handleInputChange('name', e.target.value)}
+                                name="name"
+                            />
                         </Form.Item>
-                        <Form.Item label="Email"  rules={[{ required: true, message: 'Por favor, insira o email!' }]}>
-                            <Input type="email" value={user.email} onChange={handleInputChange} name="email"/>
+
+                        <Form.Item
+                            label="Email"
+                            name="email"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Por favor, insira o email!',
+                                },
+                            ]}
+                            validateTrigger={['onChange', 'onBlur']}
+                            hasFeedback
+                        >
+                            <Input
+                                type="email"
+                                value={user.email}
+                                onChange={(e) => handleInputChange('email', e.target.value)}
+                                name="email"
+                            />
                         </Form.Item>
-                        <Form.Item label="Senha" rules={[{ required: true, message: 'Por favor, insira o email!' }]}>
+                        <Form.Item
+                            label="Senha"
+                            name="password"
+                            validateTrigger={['onChange', 'onBlur']}
+                            hasFeedback>
                             <Row gutter={8} align="middle">
                                 <Col span={16}>
                                     <Input.Password
                                         prefix={<LockOutlined className="site-form-item-icon" />}
                                         value={user.password}
                                         name="password"
-                                        onChange={handleInputChange}
                                         iconRender={(visible) => (
                                             <Button
                                                 type="text"
@@ -141,13 +183,33 @@ const crudUsers = () => {
                                 </Col>
                             </Row>
                         </Form.Item>
-                        <Form.Item>
-                            <Select/>
+                        <Form.Item
+                            label="Seleciona o cargo"
+                            name="role"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Por favor, selecione um cargo!',
+                                },
+                            ]}
+                            validateTrigger={['onChange']}
+                            hasFeedback
+                        >
+                            <Select
+                                value={user.role}
+                                onChange={(value) => handleInputChange('role', value)}
+                            >
+                                {roles.map((role) => (
+                                    <Select.Option key={role.id} value={role.id}>
+                                        {role.name}
+                                    </Select.Option>
+                                ))}
+                            </Select>
                         </Form.Item>
                     </Form>
                 </Modal>
             </div>
-        </Layout>
+        </Layout >
     )
 }
 
