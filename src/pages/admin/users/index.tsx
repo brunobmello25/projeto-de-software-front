@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Modal, Form, Input, Table, Space, Popconfirm, Row, Col, Select } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone, LockOutlined } from '@ant-design/icons';
 import Layout from "../../../components/layout/index"
@@ -50,7 +50,7 @@ const crudUsers = () => {
         form.resetFields();
     };
 
-    const handleDelete = (record) => {
+    const handleDelete = (record:any) => {
         const updatedDataSource = dataSource.filter((item) => item !== record);
         setDataSource(updatedDataSource);
     };
@@ -74,7 +74,7 @@ const crudUsers = () => {
         {
             title: 'Ações',
             key: 'actions',
-            render: (record) => (
+            render: (record:any) => (
                 <Space size="middle">
                     <a onClick={() => console.log('Editar', record)}>Editar</a>
                     <Popconfirm
