@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
-import { Button, Modal, Form, Input, Table, Space, Popconfirm } from 'antd';
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UploadOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
+} from '@ant-design/icons';
+import { Layout, Menu, theme } from 'antd';
+import { Button, Modal, Form, Input, Table, Space, Popconfirm} from 'antd';
 import "./crud.css"
+
+
+const { Header, Sider, Content } = Layout;
 
 const Secretary = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -60,23 +71,75 @@ const Secretary = () => {
     },
   ];
 
+
+  const [collapsed, setCollapsed] = useState(false);
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
   return (
-    <div className={'centralized'}>
-      <Table dataSource={dataSource} columns={columns} />
-      <Button type="primary" onClick={showModal} className='button'>
-        Cadastrar Paciente
-      </Button>
-      <Modal title="Cadastro de Paciente" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="Salvar" cancelText="Fechar">
-        <Form form={form}>
-          <Form.Item label="Nome" name="name" rules={[{ required: true, message: 'Por favor, insira o nome!' }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item label="Email" name="email" rules={[{ required: true, message: 'Por favor, insira o email!' }]}>
-            <Input />
-          </Form.Item>
-        </Form>
-      </Modal>
-    </div>
+    <Layout>
+      <Sider trigger={null} collapsible collapsed={collapsed}>
+        <div  />
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={['1']}
+          items={[
+            {
+              key: '1',
+              icon: <UserOutlined />,
+              label: 'Cadastrar Pacientes',
+            },
+            {
+              key: '2',
+              icon: <VideoCameraOutlined />,
+              label: 'Agendar Consulta',
+            },
+          ]}
+        />
+      </Sider>
+      <Layout>
+        <Header style={{ padding: 0, background: colorBgContainer }}>
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              fontSize: '16px',
+              width: 64,
+              height: 64,
+            }}
+          />
+        </Header>
+        <Content
+          style={{
+            margin: '24px 16px',
+            padding: 24,
+            minHeight: 280,
+            background: colorBgContainer,
+          }}
+        >
+          <div className={'centralized'}>
+            <Table dataSource={dataSource} columns={columns} />
+            <Button type="primary" onClick={showModal} className='button'>
+              Cadastrar Paciente
+            </Button>
+            <Modal title="Cadastro de Paciente" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="Salvar" cancelText="Fechar">
+              <Form form={form}>
+                <Form.Item label="Nome" name="name" rules={[{ required: true, message: 'Por favor, insira o nome!' }]}>
+                  <Input />
+                </Form.Item>
+                <Form.Item label="Email" name="email" rules={[{ required: true, message: 'Por favor, insira o email!' }]}>
+                  <Input />
+                </Form.Item>
+              </Form>
+            </Modal>
+          </div>
+        </Content>
+      </Layout>
+    </Layout>
+
   );
 };
 
