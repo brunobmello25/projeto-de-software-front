@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Modal, Form, DatePicker, Button } from 'antd';
+import { Modal, Form, DatePicker } from 'antd';
 import Layout from "../../../components/layout/index"
 
 const Appointment = () => {

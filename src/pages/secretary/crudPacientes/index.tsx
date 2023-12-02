@@ -45,7 +45,7 @@ const Secretary = () => {
     {
       title: 'Ações',
       key: 'actions',
-      render: (text, record) => (
+      render: (record) => (
         <Space size="middle">
           <a onClick={() => console.log('Editar', record)}>Editar</a>
           <Popconfirm

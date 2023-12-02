@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, ReactNode } from 'react';
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
@@ -9,7 +9,7 @@ import { Layout, Menu, theme, Button } from 'antd';
 
 const { Header, Sider, Content } = Layout;
 
-const PersonalLayout = (props) => {
+const PersonalLayout = ( props: {children: ReactNode}) => {
     const [collapsed, setCollapsed] = useState(false);
 
     const {
