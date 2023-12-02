@@ -7,7 +7,7 @@ import { createUser } from "../../../services/admin/index"
 const crudUsers = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [dataSource, setDataSource] = useState([]);
-    const [roles, setRoles] = useState([
+    const [roles] = useState([
         { id: 'ADMIN', name: 'Administrador' },
         { id: 'DOCTOR', name: 'Médico' },
         { id: 'SECRETARY', name: 'Secretária' },
@@ -20,7 +20,10 @@ const crudUsers = () => {
         role: '',
     })
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState('');
+    const [isModalVisibleError, setIsModalVisibleError] = useState(false);
     const [form] = Form.useForm();
+
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -37,28 +40,33 @@ const crudUsers = () => {
         }));
     };
 
-    const handleOk = () => {
-        form.validateFields().then((user) => {
-            createUser(user);
+    const handleOk = async () => {
+        try {
+            const values = await form.validateFields();
+            await createUser(values);
             form.resetFields();
             setIsModalVisible(false);
-        });
+        } catch (error: any) {
+            console.error(error.message);
+            setError(error.message);
+            setIsModalVisibleError(true);
+        }
     };
+
 
     const handleCancel = () => {
         setIsModalVisible(false);
         form.resetFields();
     };
 
-    const handleDelete = (record:any) => {
+    const handleDelete = (record: any) => {
         const updatedDataSource = dataSource.filter((item) => item !== record);
         setDataSource(updatedDataSource);
     };
 
-    const handleRoleChange = (value: string) => {
-        form.setFieldsValue({ role: value });
-
-    };
+    const handleCancelError = () => {
+        setIsModalVisibleError(false)
+    }
 
     const columns = [
         {
@@ -74,7 +82,7 @@ const crudUsers = () => {
         {
             title: 'Ações',
             key: 'actions',
-            render: (record:any) => (
+            render: (record: any) => (
                 <Space size="middle">
                     <a onClick={() => console.log('Editar', record)}>Editar</a>
                     <Popconfirm
@@ -209,6 +217,9 @@ const crudUsers = () => {
                     </Form>
                 </Modal>
             </div>
+            <Modal open={isModalVisibleError} onCancel={handleCancelError} okText="Ok">
+                {error}
+            </Modal>
         </Layout >
     )
 }
