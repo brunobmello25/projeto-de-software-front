@@ -80,6 +80,11 @@ const crudUsers = () => {
             key: 'email',
         },
         {
+            title: 'Cargo',
+            dataIndex: 'role',
+            key: 'role',
+        },
+        {
             title: 'Ações',
             key: 'actions',
             render: (record: any) => (
