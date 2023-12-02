@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Modal, Form, Input, Table, Space, Popconfirm } from 'antd';
 import "./crud.css"
 import Layout from "../../../components/layout/index"
