@@ -1,8 +1,8 @@
-// Secretaria.jsx
 import React, { useState } from 'react';
 import { Button, Modal, Form, Input, Table, Space, Popconfirm } from 'antd';
+import "./crud.css"
 
-const Secretaria = () => {
+const Secretary = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [form] = Form.useForm();
@@ -61,11 +61,12 @@ const Secretaria = () => {
   ];
 
   return (
-    <div>
-      <Button type="primary" onClick={showModal}>
+    <div className={'centralized'}>
+      <Table dataSource={dataSource} columns={columns} />
+      <Button type="primary" onClick={showModal} className='button'>
         Cadastrar Paciente
       </Button>
-      <Modal title="Cadastro de Paciente" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title="Cadastro de Paciente" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="Salvar" cancelText="Fechar">
         <Form form={form}>
           <Form.Item label="Nome" name="name" rules={[{ required: true, message: 'Por favor, insira o nome!' }]}>
             <Input />
@@ -75,10 +76,8 @@ const Secretaria = () => {
           </Form.Item>
         </Form>
       </Modal>
-
-      <Table dataSource={dataSource} columns={columns} />
     </div>
   );
 };
 
-export default Secretaria;
+export default Secretary;
