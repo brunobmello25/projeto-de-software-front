@@ -78,7 +78,7 @@ const Secretary = () => {
   } = theme.useToken();
 
   return (
-    <Layout>
+    <Layout style={{ minHeight: '100vh', overflow: 'hidden' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div  />
         <Menu
@@ -116,7 +116,7 @@ const Secretary = () => {
           style={{
             margin: '24px 16px',
             padding: 24,
-            minHeight: 280,
+            minHeight: '100%', 
             background: colorBgContainer,
           }}
         >
