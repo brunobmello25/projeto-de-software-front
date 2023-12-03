@@ -1,13 +1,11 @@
 import api from '../utils/api';
-import { setTokenCookie } from '../utils/cookie';
+import { setTokenCookie, getTokenCookie, removeTokenCookie} from '../utils/cookie';
 
 export const login = async (credentials: Object) => {
     try {
-        const response = await api.post('/session', credentials);
-        if (response.status === 200) {
-            console.log('Login bem-sucedido!');
-            const { token } = response.data;
-            setTokenCookie(token);
+        const response = await api.post('/sessions', credentials);
+        if (response.status >= 200 && response.status <= 203  ) {
+            setTokenCookie(response.data.token);
         } else {
             console.warn('Resposta inesperada:', response);
         }
@@ -20,4 +18,8 @@ export const login = async (credentials: Object) => {
             throw new Error('Erro desconhecido ao configurar a requisição.');
         }
     }
+};
+
+export const logout = async () => {
+    removeTokenCookie();
 };

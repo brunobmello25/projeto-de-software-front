@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button, Modal, Form, Input, Table, Space, Popconfirm, Row, Col, Select } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone, LockOutlined } from '@ant-design/icons';
 import Layout from "../../../components/layout/index"
-import { createUser } from "../../../services/admin/index"
+import { createUser, getListUsers } from "../../../services/admin/index"
 
 const crudUsers = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -24,6 +24,22 @@ const crudUsers = () => {
     const [isModalVisibleError, setIsModalVisibleError] = useState(false);
     const [form] = Form.useForm();
 
+    const loadUsers = async () => {
+        return await getListUsers();
+    }
+
+    const loadData = async () => {
+        try {
+            const users = await loadUsers();
+            setDataSource(users);
+        } catch (error) {
+            console.error('Erro ao carregar usuários:', error);
+        }
+    };
+
+    useEffect(() => {
+        loadData();
+    }, []);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -42,12 +58,10 @@ const crudUsers = () => {
 
     const handleOk = async () => {
         try {
-            const values = await form.validateFields();
-            await createUser(values);
+            await createUser(user);
             form.resetFields();
             setIsModalVisible(false);
         } catch (error: any) {
-            console.error(error.message);
             setError(error.message);
             setIsModalVisibleError(true);
         }
