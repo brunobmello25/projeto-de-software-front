@@ -7,6 +7,7 @@ import { createUser, getListUsers, deleteUser, updateUser } from "../../../servi
 const crudUsers = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [dataSource, setDataSource] = useState([]);
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
     const [roles] = useState([
         { id: 'ADMIN', name: 'Administrador' },
         { id: 'DOCTOR', name: 'Médico' },
@@ -76,11 +77,11 @@ const crudUsers = () => {
     };
 
 
-    const handleDelete = async (record: any) => {
+    const handleDelete = async (user: any) => {
         try {
-            const response = await deleteUser(record);
+            const response = await deleteUser(user);
             if (response.status >= 200 && response.status <= 203) {
-                const updatedDataSource = dataSource.filter((item) => item !== record);
+                const updatedDataSource = dataSource.filter((item) => item !== user);
                 setDataSource(updatedDataSource);
             }
         } catch (err) {
@@ -88,6 +89,25 @@ const crudUsers = () => {
         }
 
     };
+
+    const showEditModal = (record) => {
+        setUser(record);
+        setIsEditModalVisible(true);
+    };
+
+    const handleEditOk = async () => {
+        try {
+            await updateUser(user);
+            form.resetFields();
+            setIsEditModalVisible(false);
+            loadData();
+        } catch (error: any) {
+            setError(error.message);
+            setIsModalVisibleError(true);
+        }
+    };
+
+
 
     const handleCancelError = () => {
         setIsModalVisibleError(false)
@@ -114,7 +134,7 @@ const crudUsers = () => {
             key: 'actions',
             render: (record: any) => (
                 <Space size="middle">
-                    <a onClick={() => console.log('Editar', record)}>Editar</a>
+                    <a onClick={() => showEditModal(record)}>Editar</a>
                     <Popconfirm
                         title="Tem certeza de que deseja deletar?"
                         onConfirm={() => handleDelete(record)}
@@ -246,7 +266,101 @@ const crudUsers = () => {
                         </Form.Item>
                     </Form>
                 </Modal>
+                <Modal title="Editar Usuário" open={isEditModalVisible} onOk={handleEditOk} onCancel={handleCancel} okText="Salvar" cancelText="Fechar">
+                    <Form form={form} initialValues={user}>
+                        <Form.Item
+                            label="Nome"
+                            name="name"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Por favor, insira o nome!',
+                                },
+                            ]}
+                            validateTrigger={['onChange', 'onBlur']}
+                            hasFeedback
+                        >
+                            <Input
+                                value={user.name}
+                                onChange={(e) => handleInputChange('name', e.target.value)}
+                                name="name"
+                            />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Email"
+                            name="email"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Por favor, insira o email!',
+                                },
+                            ]}
+                            validateTrigger={['onChange', 'onBlur']}
+                            hasFeedback
+                        >
+                            <Input
+                                type="email"
+                                value={user.email}
+                                onChange={(e) => handleInputChange('email', e.target.value)}
+                                name="email"
+                            />
+                        </Form.Item>
+                        <Form.Item
+                            label="Senha"
+                            name="password"
+                            validateTrigger={['onChange', 'onBlur']}
+                            hasFeedback>
+                            <Row gutter={8} align="middle">
+                                <Col span={16}>
+                                    <Input.Password
+                                        prefix={<LockOutlined className="site-form-item-icon" />}
+                                        value={user.password}
+                                        name="password"
+                                        iconRender={(visible) => (
+                                            <Button
+                                                type="text"
+                                                size="small"
+                                                onClick={togglePasswordVisibility}
+                                                icon={visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />}
+                                            />
+                                        )}
+                                    />
+                                </Col>
+                                <Col span={8}>
+                                    <Button type="primary" onClick={makeid} className='button'>
+                                        Gerar nova senha
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </Form.Item>
+                        <Form.Item
+                            label="Seleciona o cargo"
+                            name="role"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Por favor, selecione um cargo!',
+                                },
+                            ]}
+                            validateTrigger={['onChange']}
+                            hasFeedback
+                        >
+                            <Select
+                                value={user.role}
+                                onChange={(value) => handleInputChange('role', value)}
+                            >
+                                {roles.map((role) => (
+                                    <Select.Option key={role.id} value={role.id}>
+                                        {role.name}
+                                    </Select.Option>
+                                ))}
+                            </Select>
+                        </Form.Item>
+                    </Form>
+                </Modal>
             </div>
+
             <Modal open={isModalVisibleError} onCancel={handleCancelError} okText="Ok">
                 {error}
             </Modal>

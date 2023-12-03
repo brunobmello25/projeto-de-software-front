@@ -15,9 +15,9 @@ export const createUser = async (user: Object) => {
     }
 };
 
-export const updateUser = async (user: Object, id: number) => {
+export const updateUser = async (user: any) => {
     try {
-        const response = await api.put(`/users/${id}`, user);
+        const response = await api.put(`/users/${user.id}`, user);
         return response.data;
     } catch (error: any) {
         if (error.response) {
