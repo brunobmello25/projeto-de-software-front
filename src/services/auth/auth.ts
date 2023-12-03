@@ -1,5 +1,5 @@
 import api from '../utils/api';
-import { setTokenCookie, getTokenCookie, removeTokenCookie} from '../utils/cookie';
+import { setTokenCookie, removeTokenCookie} from '../utils/cookie';
 
 export const login = async (credentials: Object) => {
     try {
@@ -20,6 +20,6 @@ export const login = async (credentials: Object) => {
     }
 };
 
-export const logout = async () => {
+export const logout = () => {
     removeTokenCookie();
 };

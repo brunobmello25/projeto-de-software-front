@@ -16,7 +16,9 @@ const Login = () => {
         try {
             const values = await form.validateFields();
             login(values);
-            navigate("/admin/gerenciarUsuarios");
+            setTimeout(() => {
+                navigate('/admin/gerenciarUsuarios')
+              }, 2000)
         } catch (error) {
             console.error('Erro ao validar campos do formulário', error);
         }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button, Modal, Form, Input, Table, Space, Popconfirm, Row, Col, Select } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone, LockOutlined } from '@ant-design/icons';
-import Layout from "../../../components/layout/index"
+import Layout from "../../../components/layout/layoutAdmin"
 import { createUser, getListUsers, deleteUser, updateUser } from "../../../services/admin/index"
 
 const crudUsers = () => {
