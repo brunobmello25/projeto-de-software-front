@@ -15,7 +15,7 @@ export const createUser = async (user: Object) => {
     }
 };
 
-export const editUser = async (user: Object, id: number) => {
+export const updateUser = async (user: Object, id: number) => {
     try {
         const response = await api.put(`/users/${id}`, user);
         return response.data;
@@ -43,4 +43,20 @@ export const getListUsers = async () => {
             throw new Error('Erro desconhecido ao configurar a requisição.');
         }
     }
+}
+
+export const deleteUser = async (user:any) => {
+    console.log(user.id);
+    try {
+        const response = await api.delete(`/users/${user.id}`,user);
+        return response.data;
+    } catch (error: any) {
+        if (error.response) {
+            throw new Error(`Erro ${error.response.status}: ${error.response.data.message}`);
+        } else if (error.request) {
+            throw new Error('Erro de rede ou o servidor não respondeu.');
+        } else {
+            throw new Error('Erro desconhecido ao configurar a requisição.');
+        }
+    }  
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button, Modal, Form, Input, Table, Space, Popconfirm, Row, Col, Select } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone, LockOutlined } from '@ant-design/icons';
 import Layout from "../../../components/layout/index"
-import { createUser, getListUsers } from "../../../services/admin/index"
+import { createUser, getListUsers, deleteUser, updateUser } from "../../../services/admin/index"
 
 const crudUsers = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -25,7 +25,9 @@ const crudUsers = () => {
     const [form] = Form.useForm();
 
     const loadUsers = async () => {
-        return await getListUsers();
+        const listUsers = await getListUsers();
+        const usersWithKey = listUsers.map(user => ({ ...user, key: user.id }));
+        return usersWithKey;
     }
 
     const loadData = async () => {
@@ -39,7 +41,7 @@ const crudUsers = () => {
 
     useEffect(() => {
         loadData();
-    }, []);
+    }, [dataSource]);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -73,9 +75,18 @@ const crudUsers = () => {
         form.resetFields();
     };
 
-    const handleDelete = (record: any) => {
-        const updatedDataSource = dataSource.filter((item) => item !== record);
-        setDataSource(updatedDataSource);
+
+    const handleDelete = async (record: any) => {
+        try {
+            const response = await deleteUser(record);
+            if (response.status >= 200 && response.status <= 203) {
+                const updatedDataSource = dataSource.filter((item) => item !== record);
+                setDataSource(updatedDataSource);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
     };
 
     const handleCancelError = () => {
