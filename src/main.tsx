@@ -3,7 +3,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import Appointment from "./pages/secretary/appointment/index.tsx";
 import CrudUsers from "./pages/admin/users/index.tsx";
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import './assets/reset.css'; 
 import Login from "./pages/login/index.tsx";
 import Secretary from "./pages/secretary/crudPacientes/index.tsx";

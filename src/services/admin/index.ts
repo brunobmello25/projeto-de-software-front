@@ -1,14 +1,8 @@
-import axios from "axios";
-
-const URL = "//127.0.0.1:3001";
-
-const api = axios.create({
-    baseURL: URL,
-});
+import api from '../utils/api';
 
 export const createUser = async (user: Object) => {
     try {
-        const response = await api.post('/', user);
+        const response = await api.post('/users',user);
         return response.data;
     } catch (error: any) {
         if (error.response) {
@@ -21,9 +15,9 @@ export const createUser = async (user: Object) => {
     }
 };
 
-export const editUser = async (user: Object) => {
+export const editUser = async (user: Object, id: number) => {
     try {
-        const response = await api.put('/', user);
+        const response = await api.put(`/users/${id}`, user);
         return response.data;
     } catch (error: any) {
         if (error.response) {
@@ -38,7 +32,7 @@ export const editUser = async (user: Object) => {
 
 export const getListUsers = async () => {
     try {
-        const response = await api.get('/');
+        const response = await api.get('/users');
         return response.data;
     } catch (error: any) {
         if (error.response) {
