@@ -13,6 +13,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import "./assets/reset.css";
+import Product from "./pages/product/index.tsx";
 
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -22,6 +23,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Route path={"/secretaria/CRUD"} element={<Secretary/>} />
         <Route path={"/secretaria/agendar"} element={<Appointment/>} />
         <Route path={"/admin/gerenciarUsuarios"} element={<CrudUsers/>} />
+        <Route path={"/product"} element={<Product/>} />
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />

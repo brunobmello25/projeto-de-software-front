@@ -242,7 +242,7 @@ const crudUsers = () => {
                             </Row>
                         </Form.Item>
                         <Form.Item
-                            label="Seleciona o cargo"
+                            label="Selecione o cargo"
                             name="role"
                             rules={[
                                 {
