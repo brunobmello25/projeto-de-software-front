@@ -169,7 +169,7 @@ const crudUsers = () => {
     return (
         <Layout>
             <div className={'centralized'}>
-                <Table dataSource={dataSource} columns={columns} />
+                <Table size={"small"} dataSource={dataSource} columns={columns} />
                 <Button type="primary" onClick={showModal} className='button'>
                     Cadastrar Paciente
                 </Button>

@@ -13,7 +13,8 @@ import {
   Navigate,
 } from "react-router-dom";
 import "./assets/reset.css";
-import Product from "./pages/products/product/index.tsx";
+import "./index.css";
+import Product from "./pages/products/stock/index.tsx";
 
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
