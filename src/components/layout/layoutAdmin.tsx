@@ -1,18 +1,22 @@
-import { useState, ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
+    CalendarOutlined,
+    InboxOutlined,
+    LogoutOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    UserOutlined,
-    LogoutOutlined,
+    SolutionOutlined,
+    TeamOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, theme, Button } from 'antd';
-import { logout } from "../../services/auth/auth"; 
+import { Button, Layout, Menu, theme } from 'antd';
+import { ReactNode, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { logout } from "../../services/auth/auth";
 
 const { Header, Sider, Content } = Layout;
 
 const PersonalLayoutAdmin = (props: { children: ReactNode }) => {
    const [collapsed, setCollapsed] = useState(false);
+   const [active, setActive] = useState("1");
     const navigate = useNavigate();
 
     const {
@@ -24,42 +28,53 @@ const PersonalLayoutAdmin = (props: { children: ReactNode }) => {
         navigate("/login");
     };
 
-    const menuItems = [
-        {
-            key: '1',
-            icon: <UserOutlined />,
-            label: 'Cadastrar Usuários',
-        },
-        {
-            key: '2',
-            icon: <LogoutOutlined />,
-            label: 'Sair',
-            onClick: handleLogout,
-            
-        },
+    const menuItems: {key: string; icon: any; label: string; onClick?: any}[] = [
+              {
+                  key: "1",
+                  icon: <SolutionOutlined />,
+                  label: 'Pacientes',
+                  onClick: () => navigate("/secretaria/CRUD")
+              },        
+              {
+                  key: "2",
+                  icon: <TeamOutlined />,
+                  label: 'Usuários',
+                  onClick: () => navigate("/admin/gerenciarUsuarios")
+              },
+              {
+                  key: "3",
+                  icon: <CalendarOutlined />,
+                  label: 'Consultas',
+                  onClick: () => navigate("/secretaria/agendar")
+              },
+              {
+                  key: "4",
+                  icon: <InboxOutlined />,
+                  label: 'Estoque',
+                  onClick: () => navigate("/produtos")
+              },
+              {
+                  key: '5',
+                  icon: <LogoutOutlined />,
+                  label: 'Sair',
+                  onClick: handleLogout,
+              },
     ];
 
     return (
         <Layout style={{ minHeight: '100vh', overflow: 'hidden' }}>
             <Sider trigger={null} collapsible collapsed={collapsed}>
-                <div />
                 <Menu
                     theme="dark"
                     mode="inline"
-                    defaultSelectedKeys={['1']}
+                    activeKey={active}
                     onClick={({ key }) => {
                         const menuItem = menuItems.find(item => item.key === key);
-                        if (menuItem && menuItem.onClick) {
-                            menuItem.onClick();
-                        }
+                        setActive(key);
+                        if (menuItem && menuItem.onClick) menuItem.onClick();
                     }}
-                >
-                    {menuItems.map(item => (
-                        <Menu.Item key={item.key} icon={item.icon} style={{ marginLeft: 'auto' }}>
-                            {item.label}
-                        </Menu.Item>
-                    ))}
-                </Menu>
+                    items={menuItems}
+                />
             </Sider>
             <Layout>
                 <Header

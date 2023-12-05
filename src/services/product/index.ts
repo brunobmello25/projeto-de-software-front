@@ -2,7 +2,7 @@ import api from '../utils/api';
 
 export const createProduct = async (user: Object) => {
     try {
-        const response = await api.post('/product',user);
+        const response = await api.post('/products',user);
         return response.data;
     } catch (error: any) {
         if (error.response) {
@@ -17,7 +17,7 @@ export const createProduct = async (user: Object) => {
 
 export const getListProducts = async () => {
     try {
-        const response = await api.get('/product');
+        const response = await api.get('/products');
         return response.data;
     } catch (error: any) {
         if (error.response) {

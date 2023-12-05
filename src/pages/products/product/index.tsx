@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button, Modal, Form, Input, Table } from 'antd';
-import Layout from "../../components/layout/layoutAdmin"
-import { createProduct, getListProducts } from "../../services/product/index"
+import Layout from "../../../components/layout/layoutAdmin"
+import { createProduct, getListProducts } from "../../../services/product/index"
 
 const Product = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -11,13 +11,11 @@ const Product = () => {
     const [form] = Form.useForm();
     const [product, setProduct] = useState({
         name: '',
-        number: '',
-        quantity: '',
     })
 
     const loadUsers = async () => {
         const listUsers = await getListProducts();
-        const usersWithKey = listUsers.map(product => ({ ...product, key: product.id }));
+        const usersWithKey = listUsers.map((product: { id: any; }) => ({ ...product, key: product.id }));
         return usersWithKey;
     }
 
@@ -68,19 +66,9 @@ const Product = () => {
 
     const columns = [
         {
-            title: 'Código',
-            dataIndex: 'number',
-            key: 'number',
-        },
-        {
             title: 'Nome',
             dataIndex: 'name',
             key: 'name',
-        },
-        {
-            title: 'Quantidade',
-            dataIndex: 'quantity',
-            key: 'quantity',
         }
     ];
 
@@ -89,28 +77,10 @@ const Product = () => {
             <div className={'centralized'}>
                 <Table dataSource={dataSource} columns={columns} />
                 <Button type="primary" onClick={showModal} className='button'>
-                    Cadastrar Paciente
+                    Cadastrar Produto
                 </Button>
-                <Modal title="Cadastro de Paciente" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="Salvar" cancelText="Fechar">
+                <Modal title="Cadastro de Produto" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="Salvar" cancelText="Fechar">
                     <Form form={form}>
-                        <Form.Item
-                            label="Código"
-                            name="number"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Por favor, insira o código!',
-                                },
-                            ]}
-                            validateTrigger={['onChange', 'onBlur']}
-                            hasFeedback
-                        >
-                            <Input
-                                value={product.number}
-                                onChange={(e) => handleInputChange('number', e.target.value)}
-                                name="number"
-                            />
-                        </Form.Item>
                         <Form.Item
                             label="Nome"
                             name="name"
@@ -127,24 +97,6 @@ const Product = () => {
                                 value={product.name}
                                 onChange={(e) => handleInputChange('name', e.target.value)}
                                 name="name"
-                            />
-                        </Form.Item>
-                        <Form.Item
-                            label="Quantidade"
-                            name="quantity"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Por favor, insira a quantidade!',
-                                },
-                            ]}
-                            validateTrigger={['onChange', 'onBlur']}
-                            hasFeedback
-                        >
-                            <Input
-                                value={product.quantity}
-                                onChange={(e) => handleInputChange('quantity', e.target.value)}
-                                name="quantity"
                             />
                         </Form.Item>
                     </Form>
