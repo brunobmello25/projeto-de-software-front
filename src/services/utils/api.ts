@@ -1,8 +1,10 @@
-import axios from 'axios';
-import { getTokenCookie } from './cookie';
+import axios from "axios";
+import { getTokenCookie } from "./cookie";
+
+const API_URL = String(import.meta.env.VITE_API_URL);
 
 const api = axios.create({
-  baseURL: 'https://projeto-de-software-production.up.railway.app',
+  baseURL: API_URL,
 });
 
 api.interceptors.request.use((config) => {
@@ -10,7 +12,7 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-  config.headers['Access-Control-Allow-Origin'] = '*';
+  config.headers["Access-Control-Allow-Origin"] = "*";
   return config;
 });
 
