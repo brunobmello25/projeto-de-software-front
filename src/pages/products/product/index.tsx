@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button, Modal, Form, Input, Table } from "antd";
-import Layout from "../../../components/layout/layoutAdmin";
+import Layout from "../../../components/layout";
 import {
   createProduct,
   getListProducts,

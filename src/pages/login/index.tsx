@@ -15,9 +15,12 @@ const Login = () => {
   const handleOnClick = async () => {
     try {
       const values = form.getFieldsValue();
-      console.log({ values });
-      await login(values);
-      navigate("/admin/gerenciarUsuarios");
+      const response = await login(values);
+      if (response && response.data && response.data.userId === 2) {
+        navigate("/admin/gerenciarUsuarios");
+      } else {
+        navigate("/produtos");
+      }
     } catch (error) {
       console.error(error);
       alert("Falha ao entrar no sistema. Favor verificar suas credenciais.");

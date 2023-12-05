@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getTokenCookie } from "./cookie";
 
-const API_URL = String(import.meta.env.VITE_API_URL);
+const API_URL = "https://projeto-de-software-production.up.railway.app";
 
 const api = axios.create({
   baseURL: API_URL,

@@ -7,6 +7,7 @@ export const login = async (credentials: Object) => {
 
     if (response.status >= 200 && response.status <= 203) {
       setTokenCookie(response.data.token);
+      return response;
     }
   } catch (error: any) {
     if (error.response) {
