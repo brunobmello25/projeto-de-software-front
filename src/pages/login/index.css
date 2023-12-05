@@ -1,0 +1,35 @@
+.login-page {
+    height: 100vh;
+    width: 100vw;
+    background: #f7fdfe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container img {
+    height: 56px;
+    width: 160px;
+    margin-bottom: 16px;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.login-container form {
+    width: 100%;
+}
+
+.login-container .ant-form-item {
+    margin-bottom: 16px;
+}
