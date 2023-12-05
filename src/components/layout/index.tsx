@@ -1,10 +1,8 @@
 import {
-  CalendarOutlined,
   InboxOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  SolutionOutlined,
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 import { ReactNode, useState } from "react";
@@ -32,7 +30,9 @@ const PersonalLayout = (props: { children: ReactNode }) => {
       key: "1",
       icon: <InboxOutlined />,
       label: "Estoque",
-      onClick: () => navigate("/produtos"),
+      onClick: () => {
+        navigate("/produtos");
+      },
     },
     {
       key: "2",

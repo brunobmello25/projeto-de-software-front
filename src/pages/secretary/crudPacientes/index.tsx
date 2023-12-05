@@ -1,35 +1,43 @@
-import { useState, useEffect } from 'react';
-import { Button, Modal, Form, Input, Table, Space, Popconfirm } from 'antd';
-import "./crud.css"
-import Layout from "../../../components/layout/layoutSecretaria"
-import { createPatient, deletePatient, getListPatients, updatePatient } from "../../../services/secretaria/index"
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { useState, useEffect } from "react";
+import { Button, Modal, Form, Input, Table, Space, Popconfirm } from "antd";
+import "./crud.css";
+import Layout from "../../../components/layout/layoutSecretaria";
+import {
+  createPatient,
+  deletePatient,
+  getListPatients,
+  updatePatient,
+} from "../../../services/secretaria/index";
 
 const Secretary = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [form] = Form.useForm();
   const [patient, setPatient] = useState({
-    name: '',
-    email: '',
-    cpf: '',
-  })
+    name: "",
+    email: "",
+    cpf: "",
+  });
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isModalVisibleError, setIsModalVisibleError] = useState(false);
 
   const loadPatients = async () => {
     const listPatients = await getListPatients();
-    const patientsWithKey = listPatients.map(patient => ({ ...patient, key: patient.id }));
+    const patientsWithKey = listPatients.map((patient: any) => ({
+      ...patient,
+      key: patient.id,
+    }));
     return patientsWithKey;
-  }
-
+  };
 
   const loadData = async () => {
     try {
       const users = await loadPatients();
       setDataSource(users);
     } catch (error) {
-      console.error('Erro ao carregar usuários:', error);
+      console.error("Erro ao carregar usuários:", error);
     }
   };
 
@@ -40,7 +48,6 @@ const Secretary = () => {
   const showModal = () => {
     setIsModalVisible(true);
   };
-
 
   const handleOk = async () => {
     try {
@@ -53,12 +60,10 @@ const Secretary = () => {
     }
   };
 
-
   const handleCancel = () => {
     setIsModalVisible(false);
     form.resetFields();
   };
-
 
   const handleDelete = async (user: any) => {
     try {
@@ -70,13 +75,12 @@ const Secretary = () => {
     } catch (err) {
       console.log(err);
     }
-
   };
 
   const handleEditCancel = () => {
     setIsEditModalVisible(false);
     form.resetFields();
-  }
+  };
 
   const showEditModal = (record: any) => {
     setPatient(record);
@@ -97,8 +101,8 @@ const Secretary = () => {
   };
 
   const handleCancelError = () => {
-    setIsModalVisibleError(false)
-  }
+    setIsModalVisibleError(false);
+  };
 
   const handleInputChange = (name: string, value: string) => {
     setPatient((prevDados) => ({
@@ -107,26 +111,25 @@ const Secretary = () => {
     }));
   };
 
-
   const columns = [
     {
-      title: 'Nome',
-      dataIndex: 'name',
-      key: 'name',
+      title: "Nome",
+      dataIndex: "name",
+      key: "name",
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
     },
     {
-      title: 'CPF',
-      dataIndex: 'cpf',
-      key: 'cpf',
+      title: "CPF",
+      dataIndex: "cpf",
+      key: "cpf",
     },
     {
-      title: 'Ações',
-      key: 'actions',
+      title: "Ações",
+      key: "actions",
       render: (record: any) => (
         <Space size="middle">
           <a onClick={() => showEditModal(record)}>Editar</a>
@@ -136,7 +139,7 @@ const Secretary = () => {
             okText="Sim"
             cancelText="Não"
           >
-            <a style={{ color: 'red' }}>Deletar</a>
+            <a style={{ color: "red" }}>Deletar</a>
           </Popconfirm>
         </Space>
       ),
@@ -145,65 +148,124 @@ const Secretary = () => {
 
   return (
     <Layout>
-      <div className={'centralized'}>
+      <div className={"centralized"}>
         <Table size={"small"} dataSource={dataSource} columns={columns} />
-        <Button type="primary" onClick={showModal} className='button'>
+        <Button type="primary" onClick={showModal} className="button">
           Cadastrar Paciente
         </Button>
-        <Modal title="Cadastro de Paciente" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="Salvar" cancelText="Fechar">
+        <Modal
+          title="Cadastro de Paciente"
+          open={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          okText="Salvar"
+          cancelText="Fechar"
+        >
           <Form form={form}>
-            <Form.Item label="Nome" name="name" rules={[{ required: true, message: 'Por favor, insira o nome!' }]}>
+            <Form.Item
+              label="Nome"
+              name="name"
+              rules={[{ required: true, message: "Por favor, insira o nome!" }]}
+            >
               <Input
                 value={patient.name}
-                onChange={(e) => handleInputChange('name', e.target.value)}
-                name="name" />
+                onChange={(e) => handleInputChange("name", e.target.value)}
+                name="name"
+              />
             </Form.Item>
-            <Form.Item label="Email" name="email" rules={[{ required: true, message: 'Por favor, insira o email!' }]}>
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                { required: true, message: "Por favor, insira o email!" },
+              ]}
+            >
               <Input
                 value={patient.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
-                name="email" />
+                onChange={(e) => handleInputChange("email", e.target.value)}
+                name="email"
+              />
             </Form.Item>
-            <Form.Item label="CPF" name="cpf" rules={[{ required: true, message: 'Por favor, insira o cpf!' }, { max: 11, message: "Digite 11 digitos" }, { min: 11, message: "Digite 11 digitos"}]}>
+            <Form.Item
+              label="CPF"
+              name="cpf"
+              rules={[
+                { required: true, message: "Por favor, insira o cpf!" },
+                { max: 11, message: "Digite 11 digitos" },
+                { min: 11, message: "Digite 11 digitos" },
+              ]}
+            >
               <Input
                 minLength={11}
                 maxLength={11}
                 value={patient.cpf}
-                onChange={(e) => handleInputChange('cpf', e.target.value)}
-                name="cpf" />
+                onChange={(e) => handleInputChange("cpf", e.target.value)}
+                name="cpf"
+              />
             </Form.Item>
           </Form>
         </Modal>
-        <Modal title="Editar Usuário" open={isEditModalVisible} onOk={handleEditOk} onCancel={handleEditCancel} okText="Salvar" cancelText="Fechar">
+        <Modal
+          title="Editar Usuário"
+          open={isEditModalVisible}
+          onOk={handleEditOk}
+          onCancel={handleEditCancel}
+          okText="Salvar"
+          cancelText="Fechar"
+        >
           <Form form={form} initialValues={patient}>
-            <Form.Item label="Nome" name="name" rules={[{ required: true, message: 'Por favor, insira o nome!' }]}>
+            <Form.Item
+              label="Nome"
+              name="name"
+              rules={[{ required: true, message: "Por favor, insira o nome!" }]}
+            >
               <Input
                 value={patient.name}
-                onChange={(e) => handleInputChange('name', e.target.value)}
-                name="name" />
+                onChange={(e) => handleInputChange("name", e.target.value)}
+                name="name"
+              />
             </Form.Item>
-            <Form.Item label="Email" name="email" rules={[{ required: true, message: 'Por favor, insira o email!' }]}>
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                { required: true, message: "Por favor, insira o email!" },
+              ]}
+            >
               <Input
                 value={patient.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
-                name="email" />
+                onChange={(e) => handleInputChange("email", e.target.value)}
+                name="email"
+              />
             </Form.Item>
-            <Form.Item label="CPF" name="cpf" rules={[{ required: true, message: 'Por favor, insira o cpf!' }, { max: 11, message: "Digite 11 digitos" }, { min: 11, message: "Digite 11 digitos"}]}>
+            <Form.Item
+              label="CPF"
+              name="cpf"
+              rules={[
+                { required: true, message: "Por favor, insira o cpf!" },
+                { max: 11, message: "Digite 11 digitos" },
+                { min: 11, message: "Digite 11 digitos" },
+              ]}
+            >
               <Input
                 maxLength={11}
                 minLength={11}
                 value={patient.cpf}
-                onChange={(e) => handleInputChange('cpf', e.target.value)}
-                name="cpf" />
+                onChange={(e) => handleInputChange("cpf", e.target.value)}
+                name="cpf"
+              />
             </Form.Item>
           </Form>
         </Modal>
-        <Modal open={isModalVisibleError} onCancel={handleCancelError} okText="Ok">
+        <Modal
+          open={isModalVisibleError}
+          onCancel={handleCancelError}
+          okText="Ok"
+        >
           {error}
         </Modal>
       </div>
     </Layout>
-
   );
 };
 
