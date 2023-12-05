@@ -21,7 +21,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Router>
       <Routes>
-        <Route path={"/secretaria/CRUD"} element={<Secretary/>} />
+        <Route path={"/secretaria/pacientes"} element={<Secretary/>} />
         <Route path={"/secretaria/agendar"} element={<Appointment/>} />
         <Route path={"/admin/gerenciarUsuarios"} element={<CrudUsers/>} />
         <Route path={"/produtos"} element={<Product/>} />

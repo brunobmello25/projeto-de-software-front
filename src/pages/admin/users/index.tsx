@@ -76,6 +76,11 @@ const crudUsers = () => {
         form.resetFields();
     };
 
+    const handleEditCancel = () => {
+        setIsEditModalVisible(false);
+        form.resetFields();
+    };
+    
 
     const handleDelete = async (user: any) => {
         try {
@@ -90,7 +95,8 @@ const crudUsers = () => {
 
     };
 
-    const showEditModal = (record) => {
+    const showEditModal = (record:any) => {
+        form.setFieldsValue(record);
         setUser(record);
         setIsEditModalVisible(true);
     };
@@ -266,7 +272,7 @@ const crudUsers = () => {
                         </Form.Item>
                     </Form>
                 </Modal>
-                <Modal title="Editar Usuário" open={isEditModalVisible} onOk={handleEditOk} onCancel={handleCancel} okText="Salvar" cancelText="Fechar">
+                <Modal title="Editar Usuário" open={isEditModalVisible} onOk={handleEditOk} onCancel={handleEditCancel} okText="Salvar" cancelText="Fechar">
                     <Form form={form} initialValues={user}>
                         <Form.Item
                             label="Nome"

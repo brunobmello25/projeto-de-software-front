@@ -1,5 +1,5 @@
 import { Modal, Form, DatePicker } from 'antd';
-import Layout from "../../../components/layout/index"
+import Layout from "../../../components/layout/layoutSecretaria"
 
 const Appointment = () => {
   const [form] = Form.useForm();
