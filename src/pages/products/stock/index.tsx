@@ -1,18 +1,5 @@
-<<<<<<< Updated upstream
 import { DeleteOutlined } from "@ant-design/icons";
-=======
-import { useState, useEffect } from "react";
-import { Button, Modal, Form, Input, Table } from "antd";
-import Layout from "../../../components/layout";
->>>>>>> Stashed changes
-import {
-  Button,
-  Form,
-  Input,
-  Modal,
-  Select,
-  Table
-} from "antd";
+import { Button, Form, Input, Modal, Select, Table } from "antd";
 import { useEffect, useState } from "react";
 import Layout from "../../../components/layout";
 import {

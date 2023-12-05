@@ -8,10 +8,6 @@ import { Button, Layout, Menu, theme } from "antd";
 import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../services/auth/auth";
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 
 const { Header, Sider, Content } = Layout;
 

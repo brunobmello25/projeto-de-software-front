@@ -1,9 +1,6 @@
 import { Button, Form, Input } from "antd";
 import logo from "../../assets/logo.gif";
-<<<<<<< Updated upstream
 import { useNavigate } from "react-router-dom";
-=======
->>>>>>> Stashed changes
 import { login } from "../../services/auth/auth";
 import "./index.css";
 
@@ -19,12 +16,6 @@ const Login = () => {
     try {
       const values = form.getFieldsValue();
       const response = await login(values);
-<<<<<<< Updated upstream
-      if (response && response.data && response.data.userId === 2) {
-        navigate("/admin/gerenciarUsuarios");
-      } else {
-        navigate("/produtos");
-=======
       if (response && response.data){
         if (response.data.userId === 2) {
           navigate("/admin/gerenciarUsuarios");
@@ -34,7 +25,6 @@ const Login = () => {
           navigate("/secretaria/pacientes");
         }
 
->>>>>>> Stashed changes
       }
     } catch (error) {
       console.error(error);
